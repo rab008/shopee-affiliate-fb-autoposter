@@ -11,7 +11,7 @@ export async function generateDescription(product) {
   URL: ${product.url}`;
 
   const response = await hf.textGeneration({
-    model: "tiiuae/falcon-7b-instruct", // free model
+    model: "HuggingFaceH4/zephyr-7b-alpha", // free model
     inputs: prompt,
     parameters: { max_new_tokens: 80 }
   });
