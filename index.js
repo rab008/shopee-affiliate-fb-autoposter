@@ -3,6 +3,7 @@ import { getMockProducts } from "./shopeeClient.js";
 import { postToFacebook } from "./fbClient.js";
 import dotenv from "dotenv";
 import cron from "node-cron";
+import { generateDescription } from "./aiClient.js";
 
 dotenv.config();
 
@@ -24,6 +25,9 @@ async function startScheduler() {
   cron.schedule(cronExpr, async () => {
     const product = products[index];
     console.log(`\n➡️ Posting product ${index + 1}/${products.length}`);
+
+    const description = await generateDescription(product);
+    product.description = description;
     await postToFacebook(product);
 
     index = (index + 1) % products.length; // loop back when done
