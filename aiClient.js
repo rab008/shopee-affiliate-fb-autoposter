@@ -10,11 +10,17 @@ export async function generateDescription(product) {
   Price: ${product.price}
   URL: ${product.url}`;
 
-  const response = await hf.textGeneration({
-    model: "HuggingFaceH4/zephyr-7b-alpha", // free model
-    inputs: prompt,
-    parameters: { max_new_tokens: 80 }
-  });
+  try {
+    const response = await hf.textGeneration({
+      model: "HuggingFaceH4/zephyr-7b-alpha", // free model
+      inputs: prompt,
+      parameters: { max_new_tokens: 80 }
+    });
 
-  return response.generated_text;
+    // response is usually an array
+    return response.generated_text || response[0]?.generated_text || "⚠️ No description generated";
+  } catch (err) {
+    console.error("Error generating description:", err);
+    return `🔥 Check out ${product.name} for only ${product.price}! Grab it here: ${product.url}`;
+  }
 }
