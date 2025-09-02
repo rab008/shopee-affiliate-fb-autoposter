@@ -2,7 +2,7 @@ name: Shopee Autoposter
 
 on:
   schedule:
-    - cron: "*/3 * * * *" # every 3 minutes
+      #   - cron: "*/3 * * * *"   # every 3 minutes
   workflow_dispatch: # allow manual run from GitHub
 
 jobs:
